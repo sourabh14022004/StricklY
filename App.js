@@ -1,20 +1,28 @@
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import WelcomeScreen from './src/components/WelcomeScreen';
+import LoginScreen from './src/components/LoginScreen';
 
 export default function App() {
+  const [currentScreen, setCurrentScreen] = useState('welcome');
+
+  const navigateToLogin = () => {
+    setCurrentScreen('login');
+  };
+
+  const navigateToWelcome = () => {
+    setCurrentScreen('welcome');
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <>
       <StatusBar style="auto" />
-    </View>
+      {currentScreen === 'welcome' ? (
+        <WelcomeScreen navigation={{ navigate: navigateToLogin }} />
+      ) : (
+        <LoginScreen navigation={{ navigate: navigateToWelcome }} />
+      )}
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
