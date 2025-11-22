@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   StatusBar,
   Alert,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type ProfileScreenName = 
   | 'ProfileMain'
@@ -53,25 +55,32 @@ const AppearanceScreen: React.FC<AppearanceScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#0F1115" />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="chevron-back" size={24} color="#111827" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Appearance</Text>
-          <View style={styles.headerRightPlaceholder} />
-        </View>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" translucent={false} />
+      <LinearGradient
+        colors={['#1A0B2E', '#2D1B4E', '#3D2B5E']}
+        style={styles.gradient}
+      >
+        <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="chevron-back" size={24} color="#FFFFFF" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Appearance</Text>
+            <View style={styles.headerRightPlaceholder} />
+          </View>
 
-        <ScrollView
-          contentContainerStyle={styles.contentContainer}
-          showsVerticalScrollIndicator={false}
-        >
+          <ScrollView
+            contentContainerStyle={[
+              styles.contentContainer,
+              { paddingTop: Platform.OS === 'ios' ? 10 : 20 },
+            ]}
+            showsVerticalScrollIndicator={false}
+          >
           <View style={styles.sectionCard}>
             <SettingRow
               label="Theme"
@@ -111,20 +120,23 @@ const AppearanceScreen: React.FC<AppearanceScreenProps> = ({ navigation }) => {
               </TouchableOpacity>
             </SettingRow>
           </View>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#1A0B2E',
+  },
+  gradient: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
@@ -132,9 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#E5E7EB',
+    backgroundColor: 'transparent',
   },
   backButton: {
     padding: 4,
@@ -142,7 +152,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#111827',
+    color: '#FFFFFF',
   },
   headerRightPlaceholder: {
     width: 32,
@@ -151,12 +161,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   sectionCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderRadius: 20,
     padding: 18,
-    shadowColor: '#0f172a',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 4,
   },
@@ -166,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#2D2D2D',
   },
   settingTextWrapper: {
     flex: 1,
@@ -175,10 +185,10 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#0B1220',
+    color: '#FFFFFF',
   },
   settingHelper: {
-    color: '#6B7280',
+    color: '#9CA3AF',
     fontSize: 13,
     marginTop: 4,
   },
@@ -192,19 +202,19 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: '#D1D5DB',
-    backgroundColor: '#FFFFFF',
+    borderColor: '#6B7280',
+    backgroundColor: '#1A1A1A',
   },
   themeChipActive: {
-    backgroundColor: '#E88B6B',
-    borderColor: '#E88B6B',
+    backgroundColor: '#6B46C1',
+    borderColor: '#6B46C1',
   },
   themeChipText: {
-    color: '#4B5563',
+    color: '#9CA3AF',
     fontWeight: '600',
   },
   themeChipTextActive: {
-    color: '#fff',
+    color: '#FFFFFF',
   },
   colorPreview: {
     padding: 4,
@@ -213,9 +223,9 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#E88B6B',
+    backgroundColor: '#6B46C1',
     borderWidth: 2,
-    borderColor: '#E5E7EB',
+    borderColor: '#2D2D2D',
   },
 });
 

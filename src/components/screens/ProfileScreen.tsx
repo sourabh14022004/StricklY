@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Alert,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
@@ -79,17 +80,20 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   return (
     <>
       <LoadingModal visible={loading} message="Please wait..." />
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar barStyle="light-content" backgroundColor="#0F1115" />
-        <View style={styles.container}>
-          <LinearGradient
-            colors={['#f4f9ef', '#f1f6fb']}
-            style={styles.heroBackground}
-          />
-          <ScrollView
-            contentContainerStyle={styles.contentContainer}
-            showsVerticalScrollIndicator={false}
-          >
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" translucent={false} />
+        <LinearGradient
+          colors={['#1A0B2E', '#2D1B4E', '#3D2B5E']}
+          style={styles.gradient}
+        >
+          <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+            <ScrollView
+              contentContainerStyle={[
+                styles.contentContainer,
+                { paddingTop: Platform.OS === 'ios' ? 10 : 20 },
+              ]}
+              showsVerticalScrollIndicator={false}
+            >
             {/* <View style={styles.headerBar}>
               <View style={styles.headerIconButtonPlaceholder} />
               <Text style={styles.headerTitle}>Profile</Text>
@@ -141,15 +145,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                   onPress={() => nav.navigate(section.id)}
                 >
                   <View style={styles.sectionLeft}>
-                    <Ionicons
-                      name={section.icon}
-                      size={22}
-                      color="#6B7280"
-                      style={styles.sectionIcon}
-                    />
+                  <Ionicons
+                    name={section.icon}
+                    size={22}
+                    color="#9CA3AF"
+                    style={styles.sectionIcon}
+                  />
                     <Text style={styles.sectionTitle}>{section.title}</Text>
                   </View>
-                  <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
+                  <Ionicons name="chevron-forward" size={20} color="#6B7280" />
                 </TouchableOpacity>
               ))}
             </View>
@@ -165,30 +169,26 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </ScrollView>
-        </View>
-      </SafeAreaView>
+          </SafeAreaView>
+        </LinearGradient>
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#e6f3ef',
-  },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#1A0B2E',
   },
-  heroBackground: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 260,
+  gradient: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
   },
   contentContainer: {
-    paddingTop: 24,
+    paddingTop: 20,
     paddingHorizontal: 20,
     paddingBottom: 160,
   },
@@ -218,13 +218,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   profileCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderRadius: 24,
     padding: 20,
     marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 4,
   },
@@ -237,12 +237,12 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: '#E5E7EB',
+    backgroundColor: '#6B46C1',
     alignItems: 'center',
     justifyContent: 'center',
   },
   avatarInitials: {
-    color: '#6B7280',
+    color: '#FFFFFF',
     fontSize: 24,
     fontWeight: '700',
   },
@@ -250,12 +250,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userName: {
-    color: '#111827',
+    color: '#FFFFFF',
     fontSize: 20,
     fontWeight: '700',
   },
   userEmail: {
-    color: '#6B7280',
+    color: '#9CA3AF',
     fontSize: 14,
     marginTop: 4,
   },
@@ -263,17 +263,17 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#E88B6B',
+    backgroundColor: '#6B46C1',
     alignItems: 'center',
     justifyContent: 'center',
   },
   sectionsContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#0f172a',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 4,
   },
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#2D2D2D',
   },
   sectionLeft: {
     flexDirection: 'row',
@@ -297,16 +297,16 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#111827',
+    color: '#FFFFFF',
   },
   logoutContainer: {
     marginTop: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#0f172a',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 4,
   },
@@ -317,10 +317,10 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 20,
     gap: 8,
-    backgroundColor: '#FFECEF',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
   },
   logoutText: {
-    color: '#F87171',
+    color: '#FF6B6B',
     fontSize: 16,
     fontWeight: '700',
   },

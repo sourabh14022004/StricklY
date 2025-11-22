@@ -8,9 +8,11 @@ import {
   StatusBar,
   Switch,
   Alert,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type ProfileScreenName = 
   | 'ProfileMain'
@@ -92,32 +94,39 @@ const StreakProductivityScreen: React.FC<StreakProductivityScreenProps> = ({ nav
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#0F1115" />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="chevron-back" size={24} color="#111827" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Streak & Productivity</Text>
-          <View style={styles.headerRightPlaceholder} />
-        </View>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" translucent={false} />
+      <LinearGradient
+        colors={['#1A0B2E', '#2D1B4E', '#3D2B5E']}
+        style={styles.gradient}
+      >
+        <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="chevron-back" size={24} color="#FFFFFF" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Streak & Productivity</Text>
+            <View style={styles.headerRightPlaceholder} />
+          </View>
 
-        <ScrollView
-          contentContainerStyle={styles.contentContainer}
-          showsVerticalScrollIndicator={false}
-        >
+          <ScrollView
+            contentContainerStyle={[
+              styles.contentContainer,
+              { paddingTop: Platform.OS === 'ios' ? 10 : 20 },
+            ]}
+            showsVerticalScrollIndicator={false}
+          >
           <View style={styles.sectionCard}>
             <SettingRow label="Show streaks on home">
               <Switch
                 value={showStreaks}
                 onValueChange={setShowStreaks}
-                thumbColor={showStreaks ? '#E88B6B' : '#f4f3f4'}
-                trackColor={{ false: '#d1d5db', true: '#fed7aa' }}
+                thumbColor={showStreaks ? '#FFFFFF' : '#9CA3AF'}
+                trackColor={{ false: '#374151', true: '#6B46C1' }}
               />
             </SettingRow>
             <SettingRow
@@ -131,33 +140,36 @@ const StreakProductivityScreen: React.FC<StreakProductivityScreenProps> = ({ nav
               <Switch
                 value={weeklySummary}
                 onValueChange={setWeeklySummary}
-                thumbColor={weeklySummary ? '#E88B6B' : '#f4f3f4'}
-                trackColor={{ false: '#d1d5db', true: '#fed7aa' }}
+                thumbColor={weeklySummary ? '#FFFFFF' : '#9CA3AF'}
+                trackColor={{ false: '#374151', true: '#6B46C1' }}
               />
             </SettingRow>
             <SettingRow label="Achievement badges">
               <Switch
                 value={achievementBadges}
                 onValueChange={setAchievementBadges}
-                thumbColor={achievementBadges ? '#E88B6B' : '#f4f3f4'}
-                trackColor={{ false: '#d1d5db', true: '#fed7aa' }}
+                thumbColor={achievementBadges ? '#FFFFFF' : '#9CA3AF'}
+                trackColor={{ false: '#374151', true: '#6B46C1' }}
               />
             </SettingRow>
           </View>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#1A0B2E',
+  },
+  gradient: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
@@ -165,9 +177,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#E5E7EB',
+    backgroundColor: 'transparent',
   },
   backButton: {
     padding: 4,
@@ -175,7 +185,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#111827',
+    color: '#FFFFFF',
   },
   headerRightPlaceholder: {
     width: 32,
@@ -184,12 +194,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   sectionCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderRadius: 20,
     padding: 18,
-    shadowColor: '#0f172a',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 4,
   },
@@ -199,7 +209,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#2D2D2D',
   },
   settingTextWrapper: {
     flex: 1,
@@ -208,29 +218,29 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#0B1220',
+    color: '#FFFFFF',
   },
   settingHelper: {
-    color: '#6B7280',
+    color: '#9CA3AF',
     fontSize: 13,
     marginTop: 4,
   },
   settingButton: {
-    backgroundColor: '#F1F5F9',
+    backgroundColor: '#6B46C1',
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 12,
   },
   settingButtonDestructive: {
-    backgroundColor: '#FEE2E2',
+    backgroundColor: 'rgba(239, 68, 68, 0.2)',
   },
   settingButtonText: {
-    color: '#111827',
+    color: '#FFFFFF',
     fontWeight: '600',
     fontSize: 13,
   },
   settingButtonTextDestructive: {
-    color: '#DC2626',
+    color: '#FF6B6B',
   },
 });
 
