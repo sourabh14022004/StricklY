@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
   StatusBar,
   Alert,
@@ -12,34 +11,70 @@ import {
   Platform,
 } from 'react-native';
 import GoogleIcon from './GoogleIcon';
+import { useAuth } from '../contexts/AuthContext';
+import LoadingModal from '../modals/LoadingModal';
 import styles from '../styles/LoginScreenStyles';
 
 const { width, height } = Dimensions.get('window');
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+interface NavigationProps {
+  navigation: {
+    navigate: (screen: string) => void;
+  };
+}
+
+export default function LoginScreen({ navigation }: NavigationProps) {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { signIn, signInWithGoogle, resetPassword } = useAuth();
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert('Error', 'Please enter both email and password.');
       return;
     }
 
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Navigation logic will be added later
-      console.log('Login successful');
-      Alert.alert('Success', 'Login successful!');
-    }, 1500);
+    const result = await signIn(email, password);
+    setIsLoading(false);
+
+    if (result.success) {
+      Alert.alert('Success', 'Welcome back!');
+      // Navigation will be handled by AuthProvider
+    } else {
+      Alert.alert('Error', result.error);
+    }
   };
 
-  const handleForgotPassword = () => {
-    Alert.alert('Forgot Password', 'Password reset functionality will be implemented');
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    const result = await signInWithGoogle();
+    setIsLoading(false);
+
+    if (result.success) {
+      Alert.alert('Success', 'Welcome!');
+      // Navigation will be handled by AuthProvider
+    } else {
+      Alert.alert('Error', result.error);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      Alert.alert('Error', 'Please enter your email first.');
+      return;
+    }
+
+    setIsLoading(true);
+    const result = await resetPassword(email);
+    setIsLoading(false);
+
+    if (result.success) {
+      Alert.alert('Success', 'Password reset email sent!');
+    } else {
+      Alert.alert('Error', result.error);
+    }
   };
 
   const handleBackToWelcome = () => {
@@ -49,15 +84,19 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handleSignUp = () => {
-    Alert.alert('Sign Up', 'Sign up functionality will be implemented');
+    if (navigation && navigation.navigate) {
+      navigation.navigate('signup');
+    }
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.container} 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+    <>
+      <LoadingModal visible={isLoading} message="Signing in..." />
+      <KeyboardAvoidingView 
+        style={styles.container} 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
       
       {/* Background decorative elements */}
       <View style={styles.backgroundElements}>
@@ -140,7 +179,11 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.socialContainer}>
           <Text style={styles.socialText}>Or continue with</Text>
           <View style={styles.socialButtons}>
-            <TouchableOpacity style={styles.socialButton}>
+            <TouchableOpacity 
+              style={styles.socialButton} 
+              onPress={handleGoogleLogin}
+              disabled={isLoading}
+            >
               <GoogleIcon size={25} />
               <Text style={styles.socialButtonText}>Google</Text>
             </TouchableOpacity>
@@ -148,5 +191,7 @@ export default function LoginScreen({ navigation }) {
         </View>
       </View>
     </KeyboardAvoidingView>
+    </>
   );
 }
+

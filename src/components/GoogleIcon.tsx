@@ -1,7 +1,12 @@
 import React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-const GoogleIcon = ({ size = 20, color }) => {
+interface GoogleIconProps {
+  size?: number;
+  color?: string;
+}
+
+const GoogleIcon: React.FC<GoogleIconProps> = ({ size = 20, color }) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 48 48">
       <Path
@@ -25,3 +30,4 @@ const GoogleIcon = ({ size = 20, color }) => {
 };
 
 export default GoogleIcon;
+

@@ -319,38 +319,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
-  welcomeText: {
-    fontSize: 28,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  welcomeLine1: {
-    color: '#000',
-  },
-  welcomeLine2: {
-    color: '#3B82F6',
-  },
-  tagline: {
-    fontSize: 16,
-    color: '#6B7280',
-    textAlign: 'center',
-    marginBottom: 40,
-    lineHeight: 24,
-  },
-  getStartedButton: {
-    backgroundColor: '#000000',
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 12,
-    marginBottom: 30,
-  },
-  getStartedText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
   paginationContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -370,3 +338,4 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
+

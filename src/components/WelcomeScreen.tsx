@@ -3,23 +3,35 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
   StatusBar,
   ScrollView,
-  Animated,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import styles from '../styles/WelcomeScreenStyles';
 
 const { width, height } = Dimensions.get('window');
 
-export default function WelcomeScreen({ navigation }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const scrollViewRef = useRef(null);
-  const autoSlideTimer = useRef(null);
-  const isUserScrolling = useRef(false);
+interface Slide {
+  id: number;
+  title: string;
+  type: 'todos' | 'calendar' | 'projects';
+}
 
-  const slides = [
+interface NavigationProps {
+  navigation: {
+    navigate: (screen: string) => void;
+  };
+}
+
+export default function WelcomeScreen({ navigation }: NavigationProps) {
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const autoSlideTimer = useRef<NodeJS.Timeout | null>(null);
+  const isUserScrolling = useRef<boolean>(false);
+
+  const slides: Slide[] = [
     {
       id: 0,
       title: 'Todos',
@@ -73,7 +85,7 @@ export default function WelcomeScreen({ navigation }) {
     }, 2000); // Resume auto-scroll after 2 seconds of no user interaction
   };
 
-  const handleScroll = (event) => {
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const slideSize = event.nativeEvent.layoutMeasurement.width;
     const index = event.nativeEvent.contentOffset.x / slideSize;
     const roundIndex = Math.round(index);
@@ -83,7 +95,7 @@ export default function WelcomeScreen({ navigation }) {
     }
   };
 
-  const handlePaginationPress = (index) => {
+  const handlePaginationPress = (index: number) => {
     setCurrentSlide(index);
   };
 
@@ -95,7 +107,7 @@ export default function WelcomeScreen({ navigation }) {
     }
   };
 
-  const renderWidget = (slide) => {
+  const renderWidget = (slide: Slide) => {
     switch (slide.type) {
         case 'todos':
           return (
@@ -286,3 +298,4 @@ export default function WelcomeScreen({ navigation }) {
     </View>
   );
 }
+

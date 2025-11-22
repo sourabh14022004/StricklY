@@ -144,21 +144,13 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-  forgotPasswordButton: {
-    alignSelf: 'flex-end',
-    marginBottom: 24,
-  },
-  forgotPasswordText: {
-    fontSize: 14,
-    color: '#3B82F6',
-    fontWeight: '500',
-  },
-  loginButton: {
+  signUpButton: {
     backgroundColor: '#000000',
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 8,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -168,25 +160,25 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  loginButtonDisabled: {
+  signUpButtonDisabled: {
     backgroundColor: '#9CA3AF',
   },
-  loginButtonText: {
+  signUpButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
-  signUpContainer: {
+  signInContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 30,
   },
-  signUpText: {
+  signInText: {
     fontSize: 14,
     color: '#6B7280',
   },
-  signUpLink: {
+  signInLink: {
     fontSize: 14,
     color: '#3B82F6',
     fontWeight: '600',
@@ -234,3 +226,4 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
+
