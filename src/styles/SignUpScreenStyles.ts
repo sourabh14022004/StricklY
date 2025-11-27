@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -65,16 +65,16 @@ const styles = StyleSheet.create({
   screenContent: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 30,
-    paddingTop: 60,
-    paddingBottom: 40,
+    paddingTop: Platform.OS === 'ios' ? 50 : 40,
+    paddingBottom: 20,
     zIndex: 1,
   },
   backButton: {
     position: 'absolute',
-    top: 50,
-    left: 30,
+    top: Platform.OS === 'ios' ? 10 : 15,
+    left: 20,
     zIndex: 2,
   },
   backButtonText: {
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: height < 700 ? 20 : 30,
+    marginTop: height < 700 ? 0 : 0,
   },
   logoSquare: {
     width: 60,
@@ -115,23 +116,23 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     maxWidth: 400,
-    marginBottom: 30,
+    marginBottom: 16,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 12,
   },
   inputLabel: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     color: '#374151',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   textInput: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
     color: '#000000',
     borderWidth: 1,
     borderColor: '#E5E7EB',
@@ -144,13 +145,41 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
+  passwordInputContainer: {
+    position: 'relative',
+  },
+  passwordInput: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingRight: 50,
+    paddingVertical: 12,
+    fontSize: 15,
+    color: '#000000',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  passwordToggle: {
+    position: 'absolute',
+    right: 14,
+    top: 12,
+    padding: 4,
+  },
   signUpButton: {
     backgroundColor: '#000000',
-    borderRadius: 12,
-    paddingVertical: 16,
+    borderRadius: 10,
+    paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 8,
+    marginTop: 4,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -172,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 30,
+    marginBottom: 16,
   },
   signInText: {
     fontSize: 14,
@@ -188,9 +217,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   socialText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#6B7280',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   socialButtons: {
     flexDirection: 'row',

@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -62,19 +62,21 @@ const styles = StyleSheet.create({
     left: width * 0.1,
     transform: [{ rotate: '-10deg' }],
   },
-  screenContent: {
+  scrollView: {
     flex: 1,
+    zIndex: 1,
+  },
+  scrollContent: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 30,
-    paddingTop: 60,
-    paddingBottom: 40,
-    zIndex: 1,
+    paddingTop: Platform.OS === 'ios' ? 50 : 70,
+    paddingBottom: 20,
   },
   backButton: {
     position: 'absolute',
-    top: 50,
-    left: 30,
+    top: Platform.OS === 'ios' ? 10 : 15,
+    left: 20,
     zIndex: 2,
   },
   backButtonText: {
@@ -85,7 +87,8 @@ const styles = StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: height < 700 ? 20 :30,
+    marginTop: height < 700 ? 0 : 0,
   },
   logoSquare: {
     width: 60,
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     maxWidth: 400,
-    marginBottom: 30,
+    marginBottom: 10,
   },
   inputContainer: {
     marginBottom: 20,
@@ -144,9 +147,37 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
+  passwordInputContainer: {
+    position: 'relative',
+  },
+  passwordInput: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingRight: 50,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: '#000000',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  passwordToggle: {
+    position: 'absolute',
+    right: 16,
+    top: 14,
+    padding: 4,
+  },
   forgotPasswordButton: {
     alignSelf: 'flex-end',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   forgotPasswordText: {
     fontSize: 14,
