@@ -9,7 +9,9 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import GoogleIcon from './GoogleIcon';
 import { useAuth } from '../contexts/AuthContext';
 import LoadingModal from '../modals/LoadingModal';
@@ -26,6 +28,7 @@ interface NavigationProps {
 export default function LoginScreen({ navigation }: NavigationProps) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { signIn, signInWithGoogle, resetPassword } = useAuth();
 
@@ -107,7 +110,12 @@ export default function LoginScreen({ navigation }: NavigationProps) {
         <View style={styles.rectangle2} />
       </View>
       
-      <View style={styles.screenContent}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         {/* Back button */}
         <TouchableOpacity style={styles.backButton} onPress={handleBackToWelcome}>
           <Text style={styles.backButtonText}>← Back</Text>
@@ -140,16 +148,29 @@ export default function LoginScreen({ navigation }: NavigationProps) {
           
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter your password"
-              placeholderTextColor="#9CA3AF"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Enter your password"
+                placeholderTextColor="#9CA3AF"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              <TouchableOpacity
+                style={styles.passwordToggle}
+                onPress={() => setShowPassword(!showPassword)}
+                activeOpacity={0.7}
+              >
+                <Ionicons
+                  name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                  size={22}
+                  color="#6B7280"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           
           <TouchableOpacity style={styles.forgotPasswordButton} onPress={handleForgotPassword}>
@@ -189,7 +210,7 @@ export default function LoginScreen({ navigation }: NavigationProps) {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
     </>
   );
