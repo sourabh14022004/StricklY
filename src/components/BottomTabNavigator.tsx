@@ -20,7 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 const FAB_SIZE = 64;
 const FAB_RADIUS = FAB_SIZE / 2;
-const NAV_BAR_HEIGHT = Platform.OS === "ios" ? 100 : 85;
+const NAV_BAR_HEIGHT = Platform.OS === "ios" ? 85 : 80;
 
 type TabType = "home" | "focus" | "add" | "captured" | "profile";
 
@@ -229,6 +229,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: NAV_BAR_HEIGHT,
+
   },
   navBarWrapper: {
     width: "100%",
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
     right: 0,
     height: NAV_BAR_HEIGHT,
     paddingHorizontal: 8,
-    paddingBottom: Platform.OS === "ios" ? 10 : 15,
+    paddingBottom: Platform.OS === "ios" ? 8 : 10,
     alignItems: "center",
     justifyContent: "space-around",
     shadowColor: "#000",
