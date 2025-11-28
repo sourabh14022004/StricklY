@@ -9,7 +9,6 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -100,8 +99,6 @@ const HomeScreen: React.FC = () => {
     return `${day} ${month}`;
   };
 
-  const insets = useSafeAreaInsets();
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" translucent={false} />
@@ -109,15 +106,11 @@ const HomeScreen: React.FC = () => {
         colors={['#1A0B2E', '#2D1B4E', '#3D2B5E']}
         style={styles.gradient}
       >
-        <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={[
-              styles.contentContainer,
-              { paddingTop: Platform.OS === 'ios' ? 10 : 20 },
-            ]}
-            showsVerticalScrollIndicator={false}
-          >
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Header Section */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
@@ -304,7 +297,6 @@ const HomeScreen: React.FC = () => {
             </View>
           </View>
         </ScrollView>
-        </SafeAreaView>
       </LinearGradient>
     </View>
   );
@@ -318,14 +310,11 @@ const styles = StyleSheet.create({
   gradient: {
     flex: 1,
   },
-  safeArea: {
-    flex: 1,
-  },
   scrollView: {
     flex: 1,
   },
   contentContainer: {
-    paddingTop: 10,
+    paddingTop: Platform.OS === 'ios' ? 10 : 20,
     paddingHorizontal: 20,
     paddingBottom: 120,
   },
